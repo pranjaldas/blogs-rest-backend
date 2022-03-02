@@ -1,6 +1,7 @@
 package click.pranjalonline.blogs.controller;
 
 import click.pranjalonline.blogs.payload.PostDto;
+import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,8 @@ public class PostController {
     }
     //  GET ALL POSTS
     @GetMapping
-    public ResponseEntity<List<PostDto>> getAllPosts(@RequestParam(name = "pageNo",defaultValue = "0",required = false) int pageNo,
-                                                     @RequestParam(name = "pageSize",defaultValue = "10",required = false) int pageSize){
+    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(name = "pageNo",defaultValue = "0",required = false) int pageNo,
+                                                    @RequestParam(name = "pageSize",defaultValue = "10",required = false) int pageSize){
        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize),HttpStatus.OK);
     }
     //  GET POST BY ID

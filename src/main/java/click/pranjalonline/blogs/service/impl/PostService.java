@@ -2,6 +2,7 @@ package click.pranjalonline.blogs.service.impl;
 
 import click.pranjalonline.blogs.entity.Post;
 import click.pranjalonline.blogs.payload.PostDto;
+import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.repository.PostRepository;
 import click.pranjalonline.blogs.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,23 @@ public class PostService implements click.pranjalonline.blogs.service.PostServic
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNo,int pageSize) {
-        Pageable pageable= PageRequest.of(pageNo,pageSize);
-        Page<Post> posts= postRepository.findAll(pageable);
-
+    public PostResponse getAllPosts(int pageNo,int pageSize) {
         //  I AM USING THE MAP FUNCTION TO CONVERT POST TO POST DTO OBJECT
         //  PASSING POST OBJECT TO POST DTO CONSTRUCTOR
-        return posts.getContent().stream().map(i->new PostDto(i)).collect(Collectors.toList());
+        Pageable pageable= PageRequest.of(pageNo,pageSize);
+        Page<Post> postsPages= postRepository.findAll(pageable);
+        List<Post> postList = postsPages.getContent();
+
+        PostResponse postResponse= new PostResponse();
+        postResponse.setPostDtoList(postList.stream().map(i->new PostDto(i)).collect(Collectors.toList()));
+        postResponse.setPageNo(pageable.getPageNumber());
+        postResponse.setPageSize(pageable.getPageSize());
+        postResponse.setTotalPages(postsPages.getTotalPages());
+        postResponse.setTotalElement(postsPages.getTotalElements());
+        postResponse.setLast(postsPages.isLast());
+
+
+        return postResponse;
     }
 
     @Override
