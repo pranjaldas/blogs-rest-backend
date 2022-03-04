@@ -6,10 +6,10 @@ import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.repository.PostRepository;
 import click.pranjalonline.blogs.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +30,12 @@ public class PostService implements click.pranjalonline.blogs.service.PostServic
     }
 
     @Override
-    public PostResponse getAllPosts(int pageNo,int pageSize) {
+    public PostResponse getAllPosts(int pageNo,int pageSize,String sortBy,String sortDir) {
         //  I AM USING THE MAP FUNCTION TO CONVERT POST TO POST DTO OBJECT
         //  PASSING POST OBJECT TO POST DTO CONSTRUCTOR
-        Pageable pageable= PageRequest.of(pageNo,pageSize);
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable= PageRequest.of(pageNo,pageSize,sort);
         Page<Post> postsPages= postRepository.findAll(pageable);
         List<Post> postList = postsPages.getContent();
 
@@ -44,8 +46,6 @@ public class PostService implements click.pranjalonline.blogs.service.PostServic
         postResponse.setTotalPages(postsPages.getTotalPages());
         postResponse.setTotalElement(postsPages.getTotalElements());
         postResponse.setLast(postsPages.isLast());
-
-
         return postResponse;
     }
 
