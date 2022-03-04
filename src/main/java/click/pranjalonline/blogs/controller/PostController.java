@@ -3,6 +3,7 @@ package click.pranjalonline.blogs.controller;
 import click.pranjalonline.blogs.payload.PostDto;
 import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.service.PostService;
+import click.pranjalonline.blogs.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,12 @@ public class PostController {
     }
     //  GET ALL POSTS
     @GetMapping
-    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(name = "pageNo",defaultValue = "0",required = false) int pageNo,
-                                                    @RequestParam(name = "pageSize",defaultValue = "10",required = false) int pageSize){
-       return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize),HttpStatus.OK);
+    public ResponseEntity<PostResponse> getAllPosts(
+            @RequestParam(name = "pageNo",defaultValue = Constants.PAGE_NO_DEFAULT,required = false) int pageNo,
+            @RequestParam(name = "pageSize",defaultValue = Constants.PAGE_SIZE_DEFAULT,required = false) int pageSize,
+            @RequestParam(name="sortBy",defaultValue = Constants.SHORT_BY_DEFAULT,required = false) String sortBy,
+            @RequestParam(name="sortDir",defaultValue = Constants.SHORT_DIRECTION_DEFAULT,required = false) String sortDir){
+       return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize,sortBy,sortDir),HttpStatus.OK);
     }
     //  GET POST BY ID
     @GetMapping("/{id}")

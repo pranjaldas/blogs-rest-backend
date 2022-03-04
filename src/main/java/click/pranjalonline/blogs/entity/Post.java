@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -23,6 +25,8 @@ public class Post {
     private String description;
     @Column(name = "content",nullable = false)
     private String content;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
     public Post(PostDto postDto){
         this.id= postDto.getId();
         this.title= postDto.getTitle();
