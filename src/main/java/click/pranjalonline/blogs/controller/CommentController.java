@@ -1,6 +1,5 @@
 package click.pranjalonline.blogs.controller;
 
-import click.pranjalonline.blogs.entity.Comment;
 import click.pranjalonline.blogs.payload.CommentDto;
 import click.pranjalonline.blogs.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,10 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@PathVariable(name = "post_id")Long post_id, @RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.createComment(post_id,commentDto), HttpStatus.CREATED);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable(name = "id") Long id){
+        return new ResponseEntity<>(commentService.deleteComment(id),HttpStatus.CREATED);
     }
 
 }

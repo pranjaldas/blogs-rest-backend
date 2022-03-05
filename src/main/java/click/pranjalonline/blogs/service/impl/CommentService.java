@@ -35,4 +35,12 @@ public class CommentService implements click.pranjalonline.blogs.service.Comment
                 .stream().map((i)->new CommentDto(i)).collect(Collectors.toList());
         return commentDtoList;
     }
+
+    @Override
+    public String deleteComment(Long id) {
+        commentRepository.delete(commentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(
+                "Comment","id",id.toString()
+        )));
+        return "Comment Deleted Successfully";
+    }
 }

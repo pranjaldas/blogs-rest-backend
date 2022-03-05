@@ -69,7 +69,6 @@ public class PostService implements click.pranjalonline.blogs.service.PostServic
 
     @Override
     public String deletePostById(Long id) {
-        Post post = new Post();
         postRepository.delete(postRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Post","id",id.toString())));
 
