@@ -1,4 +1,4 @@
-package click.pranjalonline.blogs.utils;
+package click.pranjalonline.blogs.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;
