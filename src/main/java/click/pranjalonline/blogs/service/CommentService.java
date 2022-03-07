@@ -9,4 +9,8 @@ public interface CommentService {
     List<CommentDto> findAllCommentsByPostId(Long post_id);
 
     String deleteComment(Long id);
+
+    CommentDto updateComment(Long post_id, CommentDto commentDto);
+
+    CommentDto findCommentById(Long post_id, Long id);
 }

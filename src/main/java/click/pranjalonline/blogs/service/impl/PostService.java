@@ -4,7 +4,8 @@ import click.pranjalonline.blogs.entity.Post;
 import click.pranjalonline.blogs.payload.PostDto;
 import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.repository.PostRepository;
-import click.pranjalonline.blogs.utils.ResourceNotFoundException;
+import click.pranjalonline.blogs.exceptions.ResourceNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class PostService implements click.pranjalonline.blogs.service.PostService {
     @Autowired
     private  PostRepository postRepository;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -53,7 +56,7 @@ public class PostService implements click.pranjalonline.blogs.service.PostServic
     public PostDto getPostById(Long id) {
         Post post= postRepository
                 .findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id.toString()));
-        return new PostDto(post);
+        return mapper.map(post, PostDto.class);
 
     }
 
