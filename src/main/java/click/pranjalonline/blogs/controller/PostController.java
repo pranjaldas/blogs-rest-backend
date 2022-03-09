@@ -1,6 +1,5 @@
 package click.pranjalonline.blogs.controller;
 
-import click.pranjalonline.blogs.exceptions.UnauthorizedException;
 import click.pranjalonline.blogs.payload.PostDto;
 import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.service.PostService;
@@ -23,7 +22,7 @@ public class PostController {
     @Autowired
     private UserDetailsService userDetailsService;
     //  CREATE BLOG POST
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('"+Constants.ROLE_ADMIN+"')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
@@ -43,13 +42,13 @@ public class PostController {
         return  new ResponseEntity<>(postService.getPostById(id),HttpStatus.OK);
     }
     //  UPDATE A POST
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('"+Constants.ROLE_ADMIN+"')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,@PathVariable(name = "id") long id){
         return new ResponseEntity<>(postService.updatePost(postDto,id),HttpStatus.OK);
     }
     // DELETE A POST
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('"+Constants.ROLE_ADMIN+"')")
     @DeleteMapping("/{id}")
     public  ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
         return new ResponseEntity<>(postService.deletePostById(id),HttpStatus.OK);
