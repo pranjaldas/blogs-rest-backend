@@ -5,4 +5,6 @@ public class Constants {
     public static final String PAGE_NO_DEFAULT= "0";
     public static final String SHORT_BY_DEFAULT= "id";
     public static final String SHORT_DIRECTION_DEFAULT= "asc";
+    public static final String ROLE_ADMIN= "ROLE_ADMIN";
+    public static final String ROLE_USER= "ROLE_USER";
 }

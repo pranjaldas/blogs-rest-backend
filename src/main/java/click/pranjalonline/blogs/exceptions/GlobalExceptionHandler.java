@@ -30,7 +30,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorDetails> unauthorizedException(UnauthorizedException exception,WebRequest webRequest){
+        ErrorDetails<String> errorDetails= new ErrorDetails<>(new Date(),HttpStatus.UNAUTHORIZED.toString(),
+                exception.getMessage(),webRequest.getDescription(false));
+        return  new ResponseEntity<>(errorDetails,HttpStatus.UNAUTHORIZED);
+    }
+    // FOR CLIENT INPUT VALIDATION
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
