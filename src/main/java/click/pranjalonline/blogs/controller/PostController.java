@@ -1,5 +1,6 @@
 package click.pranjalonline.blogs.controller;
 
+import click.pranjalonline.blogs.exceptions.UnauthorizedException;
 import click.pranjalonline.blogs.payload.PostDto;
 import click.pranjalonline.blogs.payload.PostResponse;
 import click.pranjalonline.blogs.service.PostService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,6 +20,8 @@ public class PostController {
     //  SINCE WE ARE AUTOWIRED A INTERFACE HERE, IT PROVIDES MORE LOOSE COUPLING
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserDetailsService userDetailsService;
     //  CREATE BLOG POST
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -39,15 +43,16 @@ public class PostController {
         return  new ResponseEntity<>(postService.getPostById(id),HttpStatus.OK);
     }
     //  UPDATE A POST
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,@PathVariable(name = "id") long id){
         return new ResponseEntity<>(postService.updatePost(postDto,id),HttpStatus.OK);
     }
     // DELETE A POST
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public  ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
         return new ResponseEntity<>(postService.deletePostById(id),HttpStatus.OK);
     }
+
 }
