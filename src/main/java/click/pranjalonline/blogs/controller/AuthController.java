@@ -1,8 +1,10 @@
 package click.pranjalonline.blogs.controller;
 
+import click.pranjalonline.blogs.payload.JWTAuthResponse;
 import click.pranjalonline.blogs.payload.LoginDto;
 import click.pranjalonline.blogs.payload.RegisterDto;
 import click.pranjalonline.blogs.repository.RoleRepository;
+import click.pranjalonline.blogs.security.JwtTokenProvider;
 import click.pranjalonline.blogs.service.UserService;
 import click.pranjalonline.blogs.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +28,19 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
-        authentication.getPrincipal();
-        if(authentication.isAuthenticated())
-            return  new ResponseEntity<>("Login Successfully", HttpStatus.OK);
-        else
-            return  new ResponseEntity<>("Login Failed", HttpStatus.OK);
+
+        // GET THE TOKEN
+        String token = jwtTokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JWTAuthResponse(token, "Bearer"));
 
     }
     @PostMapping("/register")
