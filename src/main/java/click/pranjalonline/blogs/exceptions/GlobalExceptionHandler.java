@@ -4,10 +4,12 @@ import click.pranjalonline.blogs.payload.ErrorDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -30,11 +32,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
     public ResponseEntity<ErrorDetails> unauthorizedException(UnauthorizedException exception,WebRequest webRequest){
         ErrorDetails<String> errorDetails= new ErrorDetails<>(new Date(),HttpStatus.UNAUTHORIZED.toString(),
                 exception.getMessage(),webRequest.getDescription(false));
         return  new ResponseEntity<>(errorDetails,HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorDetails> accessDeniedException(AccessDeniedException exception,WebRequest webRequest){
+        ErrorDetails<String> errorDetails= new ErrorDetails<>(new Date(),HttpStatus.FORBIDDEN.toString(),
+                exception.getMessage(),webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails,HttpStatus.FORBIDDEN);
     }
     // FOR CLIENT INPUT VALIDATION
     @Override
