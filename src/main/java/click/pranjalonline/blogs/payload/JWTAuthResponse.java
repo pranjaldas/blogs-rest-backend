@@ -1,5 +1,8 @@
 package click.pranjalonline.blogs.payload;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "JWT Auth response model")
 public class JWTAuthResponse {
     private String accessToken;
     private String tokenType;

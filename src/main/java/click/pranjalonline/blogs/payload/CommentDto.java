@@ -1,10 +1,11 @@
 package click.pranjalonline.blogs.payload;
 
 import click.pranjalonline.blogs.entity.Comment;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@ApiModel(value = "Comment Data Transfer Object")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
