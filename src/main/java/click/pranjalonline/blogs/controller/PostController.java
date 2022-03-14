@@ -23,6 +23,14 @@ public class PostController {
     private PostService postService;
     @Autowired
     private UserDetailsService userDetailsService;
+
+    /**
+     * To test the server
+     */
+    @GetMapping("/test")
+    public String testServer(){
+        return "BLOGS APP IS LIVE";
+    }
     //  CREATE BLOG POST
     @ApiOperation(value = "API to create posts",notes = "ADMINS only")
     @PreAuthorize("hasRole('"+Constants.ROLE_ADMIN+"')")
