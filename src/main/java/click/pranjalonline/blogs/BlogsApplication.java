@@ -34,20 +34,20 @@ public class BlogsApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		Role roleA= new Role();
-		roleA.setName("ROLE_ADMIN");
-		roleRepository.save(roleA);
-		Role roleU= new Role();
-		roleU.setName("ROLE_USER");
-		roleRepository.save(roleU);
-
-		User user= new User();
-		user.setRoles(Collections.singleton(roleA));
-		user.setName("Pranjal Das");
-		user.setEmail("pranjaladmin@gmail.com");
-		user.setUsername("pranjal-admin");
-		user.setPassword(passwordEncoder().encode("password"));
-		userRepository.save(user);
+//		Role roleA= new Role();
+//		roleA.setName("ROLE_ADMIN");
+//		roleRepository.save(roleA);
+//		Role roleU= new Role();
+//		roleU.setName("ROLE_USER");
+//		roleRepository.save(roleU);
+//
+//		User user= new User();
+//		user.setRoles(Collections.singleton(roleA));
+//		user.setName("Pranjal Das");
+//		user.setEmail("pranjaladmin@gmail.com");
+//		user.setUsername("pranjal-admin");
+//		user.setPassword(passwordEncoder().encode("password"));
+//		userRepository.save(user);
 
 	}
 }
